@@ -7,12 +7,35 @@
       </div>
     </div>
     
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/register">Register</router-link> |
-      <router-link to="/calculators">Calculators</router-link>
-    </nav>
+    <header class="navbar">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <router-link to="/" class="brand-link">
+            <img src="/gold-bar.png" alt="Gold Calculator" class="brand-icon" />
+            <span class="brand-text">Gold Calculator</span>
+          </router-link>
+        </div>
+        <nav class="nav-menu" :class="{ 'mobile-open': mobileMenuOpen }">
+          <router-link to="/" class="nav-link">
+            <span>Home</span>
+          </router-link>
+          <router-link to="/calculators" class="nav-link">
+            <span>Calculators</span>
+          </router-link>
+          <router-link to="/login" class="nav-link">
+            <span>Login</span>
+          </router-link>
+          <router-link to="/register" class="nav-link">
+            <span>Register</span>
+          </router-link>
+        </nav>
+        <button class="mobile-menu-toggle" @click="toggleMobileMenu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
     <router-view />
   </div>
 </template>
@@ -20,6 +43,11 @@
 <script>
 export default {
   name: 'App',
+  data() {
+    return {
+      mobileMenuOpen: false
+    }
+  },
   methods: {
     getParticleStyle() {
       const left = Math.random() * 100
@@ -33,6 +61,9 @@ export default {
         width: `${size}px`,
         height: `${size * 0.6}px`
       }
+    },
+    toggleMobileMenu() {
+      this.mobileMenuOpen = !this.mobileMenuOpen
     }
   }
 }
@@ -116,39 +147,156 @@ export default {
   transition: background 0.5s ease;
 }
 
-nav {
-  position: relative;
-  z-index: 10;
-  margin-bottom: 30px;
-  background-color: var(--secondary-gold, #B88B4A);
-  padding: 15px 30px;
-  border-radius: 0 0 20px 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  display: flex;
-  justify-content: center;
-  gap: 20px;
+/* Modern Navbar Styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-nav a {
-  margin: 0 10px;
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+}
+
+.nav-brand .brand-link {
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  color: #fff;
+  color: var(--primary-gold, #DDCA7D);
   font-weight: bold;
+  font-size: 24px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.nav-brand .brand-icon {
+  width: 40px;
+  height: 24px;
+  margin-right: 12px;
+  filter: drop-shadow(0 0 8px rgba(221, 202, 125, 0.8));
+}
+
+.nav-brand .brand-text {
+  color: var(--primary-gold, #DDCA7D);
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
   font-size: 16px;
-  padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: 12px;
   transition: all 0.3s ease;
   position: relative;
-  z-index: 10;
+  overflow: hidden;
 }
 
-nav a:hover {
-  background-color: rgba(221, 202, 125, 0.3);
-  color: var(--primary-gold, #DDCA7D);
+.nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(221, 202, 125, 0.2), rgba(184, 139, 74, 0.2));
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-nav a.router-link-exact-active {
-  background-color: rgba(221, 202, 125, 0.4);
+.nav-link:hover::before {
+  opacity: 1;
+}
+
+.nav-link:hover {
   color: var(--primary-gold, #DDCA7D);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(162, 112, 53, 0.3);
+}
+
+.nav-link.router-link-exact-active {
+  background: linear-gradient(135deg, rgba(221, 202, 125, 0.3), rgba(184, 139, 74, 0.2));
+  color: var(--primary-gold, #DDCA7D);
+  box-shadow: 0 4px 15px rgba(162, 112, 53, 0.2);
+}
+
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.mobile-menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: var(--primary-gold, #DDCA7D);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Add padding to main content to account for fixed navbar */
+#app {
+  padding-top: 70px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .nav-menu.mobile-open {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-link {
+    width: 100%;
+    justify-content: center;
+    padding: 15px 20px;
+  }
 }
 </style>

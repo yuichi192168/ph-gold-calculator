@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="home-box">
-      <h1>Welcome to Plantado Gold Rate Calculator</h1>
+      <h1>Gold Rate Calculator</h1>
       <p>Your trusted tool for calculating gold prices in the Philippines.</p>
       <div class="features">
         <div class="feature">
