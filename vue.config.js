@@ -2,9 +2,12 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true
 })
-// vue.config.js
 module.exports = {
-  configureWebpack: {
-    entry: './src/main.ts'
+  pages: {
+    index: {
+      entry: 'src/main.js',
+      template: 'public/index.html',
+      filename: 'index.html'
+    }
   }
 }
